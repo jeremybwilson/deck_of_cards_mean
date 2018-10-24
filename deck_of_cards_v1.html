@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Assignment: Deck of Cards</title>
+    </head>
+    <body>
+        <script >
+        // ======== ES6 =========
+        class Deck {
+            constructor() {
+                // given deck
+                this.deck = [];
+            }
+
+            // The Deck should be able to reset
+            reset() {   
+                // create deck
+                this.deck = [];
+
+                // Each Card should have a suit ("Hearts", "Clubs", "Diamonds", "Spades")
+                const suit = ["Hearts", "Clubs", "Diamonds", "Spades"];
+                // Each Card should have a string value (eg, "Ace", "Two", ...., "Queen", "King")
+                const values = ["Ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, "Joker", "Queen", "King"];
+
+                // Create deck
+                //...loop through the suit
+                for (const s of suit) {
+                    //  for each suit, add value
+                    for (const val of values) {
+                        this.deck.push(`${ s } : ${ val }`);
+                    }
+                }
+                return this; //  allow for chaining
+            }
+
+            // The Deck should be able to shuffle
+            shuffle() {
+                // get length of deck
+                let len = this.deck.length;
+                // switch variables
+                let x = '';
+                let y = '';
+
+                // Random order
+                while (len){
+                    x = Math.floor(Math.random() * len--);
+                    y = this.deck[len];
+                    this.deck[len] = this.deck[x];
+                    this.deck[x] = y;
+                }
+                return this;
+            }
+
+            // The Deck should be able to deal a random Card
+            deal(){
+                return this.deck.pop();
+            }
+            // Deal should return the Card that was dealt and remove it from the Deck
+        }
+
+        class Player {
+            constructor(name){
+                // The Player should have a name
+                this.name = name;
+                // The Player should have a hand (an array of cards taken from a Deck)
+                this.hand = [];     // store cards dealt
+            }
+            
+            // The Player should be able to take a Card (use the deck.deal method)
+            take(deck) {
+                this.hand.push(deck.deal());
+                return this;
+            }
+
+            // The Player should be able to discard a Card    
+            removeCard() {
+                return this.hand.pop() + this.hand;
+            }
+        }
+
+        const deck1 = new Deck();
+        deck1.reset().shuffle();
+        console.log(deck1);
+
+        const player1 = new Player("Jeremy");
+        player1.take(deck1).take(deck1);
+        console.log(player1);
+
+        const deck2 = new Deck();
+        deck2.reset().shuffle();
+        console.log(deck2);
+
+        const player2 = new Player("Anika");
+        player2.take(deck2).take(deck2);
+        console.log(player2);
+
+        </script>
+    </body>
+</html>
